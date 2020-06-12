@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<div class="row">
+	<div class="col-md-5">
+		<div class="card text-white bg-ligth pb-2">
+			<div class="card-header bg-info"><strong>Ingresar Nuevos Datos:</strong></div>
+			<div class="card-body bg-secondary">
+				<form action="/add_contact" method="POST">
+					<div class="form-group">
+						<label>Nombre:</label>
+						<input type="text" name="name" placeholder="Tu Nombre" class="form-control">
+						<small>Ingresa El Nombre Que Deseas Registras En La Base De Datos</small>
+					</div>
+					<div class="form-group">
+						<label>E-Mail:</label>
+						<input type="text" name="email" placeholder="Tu E-Mail" class="form-control">
+						<small>Ingresa El Correo Electronico Que Deseas Registrar</small>
+					</div>
+					<div class="form-group">
+						<button type="submit" class="btn btn-success btn-block">
+							Enviar Informacion
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		{% with messages = get_flashed_messages() %}
+		{% if messages %}
+		{% for x in messages %}
+		<div class="alert alert-success alert-dismissible fade show" role="alert">
+			<strong>REALIZADO!</strong> {{ x }}
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		{% endfor %}
+		{% endif %}
+		{% endwith %}
+
+	</div>
+	<div class="col-md-7">
+		<table class="table table-light table-striped table-hover">
+			<thead class="text-white bg-info">
+				<tr>
+					<th scope="col">ID</th>
+					<th scope="col">Nombre</th>
+					<th scope="col">E-Mail</th>
+					<th scope="col">Opciones</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for info in info %}
+				<tr>
+					<td>{{ info.0 }}</td>
+					<td>{{ info.1 }}</td>
+					<td>{{ info.2 }}</td>
+					<td>
+						<a href="/edit/{{info.0}}" class="btn btn-primary btn-sm">Editar</a>
+						<a href="/delete/{{info.0}}" class="btn btn-danger btn-sm btn-delete">Eliminar</a>
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+{% endblock %}
